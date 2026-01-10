@@ -12,25 +12,23 @@ function cosineSimilarity(vecA: number[], vecB: number[]): number {
 }
 
 export async function compare(prevState: any, formData: FormData) {
-  console.log("[LOG] Retrieving input...");
   const word = formData.get("guessedWord")?.toString();
   if (!word) {
     console.error("[ERROR] Invalid input in formData.get() at /game/action.ts");
-    return { ...prevState };
+    return { ...prevState, status: { error: true, message: "Invalid input" } };
   }
-  console.log("[SUCCESS] Retrieved input ");
 
-  console.log("[LOG] Getting vector of the input...");
   let wordVector: number[];
   try {
     wordVector = JSON.parse(await getVectorfromWord(word));
   } catch (error) {
-    console.error(`[ERROR] getVectorfromWord(${word}) didn't found the word`);
-    return { ...prevState, score: "Word not in Database" };
+    let errorMessage = "An unknown error occurred";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return { ...prevState, status: { error: true, message: errorMessage } };
   }
-  console.log("[SUCCESS] Got the vector of the input");
 
-  console.log("[LOG] Retrieving cookies...");
   const cookieStore = await cookies();
   const secretWordId = cookieStore.get("secretWordId")?.value;
   if (!secretWordId) {
@@ -39,15 +37,10 @@ export async function compare(prevState: any, formData: FormData) {
     );
     throw Error("Unexpected Error while retrieving cookies");
   }
-  console.log("[SUCCESS] Retrieved cookies");
 
-  console.log("[LOG] Retrieving secret vector...");
   const secretVector = JSON.parse(await getVectorfromId(Number(secretWordId)));
-  console.log("[SUCCESS] Retrieved secret vector");
 
-  console.log("[LOG] Calculating similarity...");
   const score = cosineSimilarity(wordVector, secretVector);
-  console.log("[SUCCESS] Computed score for", score);
 
   const newGuesses = [
     ...prevState.guesses,
@@ -55,10 +48,10 @@ export async function compare(prevState: any, formData: FormData) {
   ].sort((a, b) => b.score - a.score);
 
   if (Math.round(score) === 100) {
-    return { ...prevState, won: true };
+    return { ...prevState, won: true, status: { error: false } };
   }
 
-  return { ...prevState, guesses: newGuesses };
+  return { ...prevState, guesses: newGuesses, status: { error: false } };
 }
 
 export async function goBack() {

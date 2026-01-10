@@ -1,6 +1,6 @@
 "use client";
 import Form from "next/form";
-import { useActionState, useReducer } from "react";
+import { useActionState, useState } from "react";
 import { compare, goBack } from "@/app/game/action";
 import { Guess } from "@/utils/types";
 
@@ -19,6 +19,9 @@ export default function Game() {
         <input name="guessedWord"></input>
         <button type="submit">Test</button>
       </Form>
+      {state.status.error && (
+        <div style={{ color: "red" }}>{state.status.message}</div>
+      )}
       {!state.won && (
         <ol>
           {state.guesses.map((guess: Guess) => (
