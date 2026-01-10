@@ -49,11 +49,16 @@ export async function compare(prevState: any, formData: FormData) {
   const score = cosineSimilarity(wordVector, secretVector);
   console.log("[SUCCESS] Computed score for", score);
 
+  const newGuesses = [
+    ...prevState.guesses,
+    { id: crypto.randomUUID(), word: word, score: Math.round(score) },
+  ].sort((a, b) => b.score - a.score);
+
   if (Math.round(score) === 100) {
     return { ...prevState, won: true };
   }
 
-  return { ...prevState, score: Math.round(score) };
+  return { ...prevState, guesses: newGuesses };
 }
 
 export async function goBack() {

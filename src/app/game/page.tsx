@@ -1,16 +1,17 @@
 "use client";
 import Form from "next/form";
-import { useActionState } from "react";
-import { compare, goBack } from "../game/action";
+import { useActionState, useReducer } from "react";
+import { compare, goBack } from "@/app/game/action";
+import { Guess } from "@/utils/types";
 
 const initialState = {
+  guesses: [],
   won: false,
-  geussedWord: "",
-  score: null,
+  status: { error: false, message: "" },
 };
 
 export default function Game() {
-  const [state, formAction, isPending] = useActionState(compare, initialState);
+  const [state, formAction] = useActionState(compare, initialState);
 
   return (
     <>
@@ -18,15 +19,27 @@ export default function Game() {
         <input name="guessedWord"></input>
         <button type="submit">Test</button>
       </Form>
-      {state.won ? <p>YOU WON!!!</p> : <p>{state.score}</p>}
+      {!state.won && (
+        <ol>
+          {state.guesses.map((guess: Guess) => (
+            <li key={guess.id}>
+              {guess.word}: {guess.score}%
+            </li>
+          ))}
+        </ol>
+      )}
       {state.won && (
-        <button
-          onClick={() => {
-            goBack();
-          }}
-        >
-          Go back
-        </button>
+        <div>
+          <p>YOU WON!!!</p>
+          <p>It took you {state.guesses.length + 1} guesses</p>
+          <button
+            onClick={() => {
+              goBack();
+            }}
+          >
+            Go back
+          </button>
+        </div>
       )}
     </>
   );
