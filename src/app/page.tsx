@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { startGame } from "./action";
 
 export default function Home() {
@@ -9,8 +8,6 @@ export default function Home() {
       <form action={startGame}>
         <button type="submit">Start Game</button>
       </form>
-      <br></br>
-      <Link href="multiplayer">Multiplayer</Link>
     </div>
   );
 }

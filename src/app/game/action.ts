@@ -1,17 +1,18 @@
 "use server";
 import { cookies } from "next/headers";
 import { getVectorfromId, getVectorfromWord } from "@/db";
+import { redirect } from "next/navigation";
 
 function cosineSimilarity(vecA: number[], vecB: number[]): number {
   const dotProduct = vecA.reduce((sum, a, idx) => sum + a * vecB[idx], 0);
   const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
   const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
 
-  return dotProduct / (magnitudeA * magnitudeB);
+  return (dotProduct / (magnitudeA * magnitudeB)) * 100;
 }
 
 export async function compare(prevState: any, formData: FormData) {
-  console.log("[LOG] Retrieving imput...");
+  console.log("[LOG] Retrieving input...");
   const word = formData.get("guessedWord")?.toString();
   if (!word) {
     console.error("[ERROR] Invalid input in formData.get() at /game/action.ts");
@@ -45,11 +46,16 @@ export async function compare(prevState: any, formData: FormData) {
   console.log("[SUCCESS] Retrieved secret vector");
 
   console.log("[LOG] Calculating similarity...");
-  const score = cosineSimilarity(wordVector, secretVector) * 100;
+  const score = cosineSimilarity(wordVector, secretVector);
   console.log("[SUCCESS] Computed score for", score);
 
-  if (isNaN(score)) {
-    return { ...prevState, score: "Word not found in database" };
+  if (Math.round(score) === 100) {
+    return { ...prevState, won: true };
   }
-  return { ...prevState, score: Math.floor(score) };
+
+  return { ...prevState, score: Math.round(score) };
+}
+
+export async function goBack() {
+  redirect("/");
 }
