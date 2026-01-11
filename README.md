@@ -1,6 +1,5 @@
 ## TODO's
 
-- add settings menu
 - add hints
 - add basic style
 - add 3d representation of the vectors
