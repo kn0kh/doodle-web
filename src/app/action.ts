@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { Difficulty } from "@/utils/types";
 
 export async function startGame(difficulty: Difficulty) {
-  console.log("Starting game with difficulty:", difficulty);
   const secretId = await getRandomSecret(difficulty);
 
   const cookieStore = await cookies();

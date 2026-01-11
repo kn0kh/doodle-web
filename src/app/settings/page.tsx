@@ -2,6 +2,7 @@
 
 import { LanguageShort, Difficulty } from "@/utils/types";
 import { useGameSettings } from "@/context/game-settings-context";
+import Link from "next/link";
 
 export default function gameSettings() {
   const { settings, setSettings } = useGameSettings()!;
@@ -37,8 +38,11 @@ export default function gameSettings() {
         <option value="0">Easy</option>
         <option value="1">Normal</option>
         <option value="2">Hard</option>
-        <option value="3">Impossible</option>
+        <option value="3">Random</option>
       </select>
+      <br></br>
+      <br></br>
+      <Link href="/">Back</Link>
     </>
   );
 }

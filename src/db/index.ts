@@ -1,5 +1,5 @@
 import { drizzle } from "drizzle-orm/libsql";
-import { gte, isNotNull, and, sql, eq, lte } from "drizzle-orm";
+import { gte, and, sql, eq, lte, isNull, or, is } from "drizzle-orm";
 import { createClient } from "@libsql/client";
 import { readyVectors } from "./schema";
 
@@ -22,24 +22,24 @@ export async function getRandomSecret(difficulty: number): Promise<number> {
       break;
     case 2:
       max = 4;
-      min = 3;
+      min = 1;
       break;
     default:
-      max = 3;
+      max = 0;
       min = 0;
+  }
+
+  const conditions = [eq(readyVectors.wortklasse, "Substantiv")];
+
+  if (min !== 0) {
+    conditions.push(lte(readyVectors.frequenzklasse, max));
+    conditions.push(gte(readyVectors.frequenzklasse, min));
   }
 
   const result = await db
     .select()
     .from(readyVectors)
-    .where(
-      and(
-        isNotNull(readyVectors.frequenzklasse),
-        lte(readyVectors.frequenzklasse, max),
-        gte(readyVectors.frequenzklasse, min),
-        eq(readyVectors.wortklasse, "Substantiv")
-      )
-    )
+    .where(and(...conditions))
     .orderBy(sql`RANDOM()`)
     .limit(1)
     .get()
