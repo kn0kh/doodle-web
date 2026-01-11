@@ -12,7 +12,6 @@ const initialState = {
 
 export default function Game() {
   const [state, formAction] = useActionState(compare, initialState);
-
   return (
     <>
       <Form action={formAction}>
