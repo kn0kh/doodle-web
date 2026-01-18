@@ -1,30 +1,69 @@
 "use client";
 import Form from "next/form";
-import { useActionState, useState } from "react";
-import { compare, goBack } from "@/app/game/action";
+import { useActionState } from "react";
+import { compare, goBack, getHint } from "@/app/game/action";
 import { Guess } from "@/utils/types";
+import Link from "next/link";
 
-const initialState = {
+const initialGState: {
+  guesses: { id: string; word: string; score: number }[];
+  won: boolean;
+  status: { error: boolean; message: string };
+} = {
   guesses: [],
   won: false,
   status: { error: false, message: "" },
 };
 
+const initialHState: {
+  hints: { id: string; hint: string; similarity: number }[];
+  times: number;
+  usedup: boolean;
+  status: { error: boolean; message: string };
+} = {
+  hints: [],
+  times: 0,
+  usedup: false,
+  status: { error: false, message: "" },
+};
+
 export default function Game() {
-  const [state, formAction] = useActionState(compare, initialState);
+  const [Gstate, handleGuess] = useActionState(compare, initialGState);
+  const [Hstate, handleHint] = useActionState(getHint, initialHState);
   return (
     <>
-      {!state.won && (
+      {!Gstate.won && (
         <div>
-          <Form action={formAction}>
+          <Form action={handleGuess}>
             <input name="guessedWord"></input>
             <button type="submit">Test</button>
           </Form>
-          {state.status.error && (
-            <div style={{ color: "red" }}>{state.status.message}</div>
+          {Hstate.usedup ? (
+            <p>
+              <i>No more hints available</i>
+            </p>
+          ) : (
+            <Form action={handleHint}>
+              <button type="submit">Hint</button>
+            </Form>
+          )}
+          <ul>
+            {Hstate.hints.map(
+              (hintObj: { id: string; hint: string; similarity: number }) => (
+                <li key={hintObj.id}>
+                  {hintObj.hint}: {hintObj.similarity}%
+                </li>
+              ),
+            )}
+          </ul>
+          {Hstate.status.error && (
+            <div style={{ color: "red" }}>{Hstate.status.message}</div>
+          )}
+          {Gstate.status.error && (
+            <div style={{ color: "red" }}>{Gstate.status.message}</div>
           )}
           <ol>
-            {state.guesses.map((guess: Guess) => (
+            {Gstate.guesses.map((guess: Guess) => (
               <li key={guess.id}>
                 {guess.word}: {guess.score}%
               </li>
@@ -32,10 +71,10 @@ export default function Game() {
           </ol>
         </div>
       )}
-      {state.won && (
+      {Gstate.won && (
         <div>
           <p>YOU WON!!!</p>
-          <p>It took you {state.guesses.length + 1} guesses</p>
+          <p>It took you {Gstate.guesses.length + 1} guesses</p>
           <button
             onClick={() => {
               goBack();
@@ -45,6 +84,7 @@ export default function Game() {
           </button>
         </div>
       )}
+      <Link href="/">Surrender</Link>
     </>
   );
 }

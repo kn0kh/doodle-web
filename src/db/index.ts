@@ -29,9 +29,10 @@ export async function getRandomSecret(difficulty: number): Promise<number> {
       min = 0;
   }
 
-  const conditions = [eq(readyVectors.wortklasse, "Substantiv")];
+  const conditions = [];
 
   if (min !== 0) {
+    conditions.push(eq(readyVectors.wortklasse, "Substantiv"));
     conditions.push(lte(readyVectors.frequenzklasse, max));
     conditions.push(gte(readyVectors.frequenzklasse, min));
   }

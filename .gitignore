@@ -45,3 +45,4 @@ next-env.d.ts
 *.sql
 *.sqlite
 drizzle/
+*.hnsw

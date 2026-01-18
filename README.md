@@ -1,7 +1,5 @@
 ## TODO's
 
-- add hints
-- add surrender
 - add basic style
 - add 3d representation of the vectors
 - add fancy background
