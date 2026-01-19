@@ -2,39 +2,7 @@
 import { cookies } from "next/headers";
 import { getVectorfromId, getVectorfromWord, getWordfromId } from "@/db";
 import { redirect } from "next/navigation";
-import { HierarchicalNSW } from "hnswlib-node";
-
-let cachedIndex: HierarchicalNSW | null = null;
-
-function getIndex(): HierarchicalNSW {
-  if (cachedIndex) {
-    return cachedIndex;
-  }
-
-  const dim = 300;
-  const index = new HierarchicalNSW("cosine", dim);
-  const vectorsStorePath = process.env.VECTORS_STORE;
-
-  if (!vectorsStorePath) {
-    console.error(
-      "[ERROR] VECTORS_STORE is undefined in environment variables at /game/action.ts",
-    );
-    throw Error("Unexpected Error while retrieving environment variables");
-  }
-  try {
-    index.readIndexSync(vectorsStorePath);
-  } catch (error) {
-    console.error(
-      "[ERROR] Failed to read index from vectors store path:",
-      error,
-    );
-    throw Error("Unexpected Error while reading HNSW index from storage");
-  }
-  console.log("Index loaded and cached");
-  cachedIndex = index;
-
-  return cachedIndex;
-}
+import { getIndex } from "@/app/action";
 
 function cosineSimilarity(vecA: number[], vecB: number[]): number {
   const dotProduct = vecA.reduce((sum, a, idx) => sum + a * vecB[idx], 0);
@@ -119,7 +87,7 @@ export async function getHint(prevState: {
     };
   }
   const k = 12;
-  const index = getIndex();
+  const index = await getIndex();
 
   const cookieStore = await cookies();
   const secretWordId = cookieStore.get("secretWordId")?.value;
