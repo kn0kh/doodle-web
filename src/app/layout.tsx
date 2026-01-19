@@ -1,22 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Orbitron } from "next/font/google";
 import "./globals.css";
 import { GameSettingsProvider } from "@/context/game-settings-context";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Vector of the Day",
-  description: "Geuss your word of the day as vector",
+  title: "Contextualle",
+  description: "Guess your word of the day from context",
 };
+const orbitron = Orbitron({ subsets: ["latin"], weight: ["400", "700"] });
 
 export default function RootLayout({
   children,
@@ -25,10 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <GameSettingsProvider>{children}</GameSettingsProvider>
+      <body className={`${orbitron.className} antialiased`}>
+        <div className="app-container">
+          <GameSettingsProvider>{children}</GameSettingsProvider>
+        </div>
       </body>
     </html>
   );
