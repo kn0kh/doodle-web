@@ -33,32 +33,30 @@ function DifficultyLabel({ difficulty }: { difficulty: number }) {
 export default function Home() {
   const { settings } = useGameSettings()!;
   return (
-    <div className="game-menu-wrapper">
-      <div className="game-menu">
-        <header className="header">
-          <h1 className="label">
-            <i>Contextualle</i>
-          </h1>
-          <p className="under_label">Guess the secret word from context</p>
-        </header>
-        <main className="menu-panel">
-          <p className="current-difficulty">
-            <i>Current difficulty:</i>{" "}
-            <DifficultyLabel difficulty={settings.difficulty} />
-          </p>
-          <form
-            className="start-btn-wrapper"
-            action={() => startGame(settings.difficulty)}
-          >
-            <button type="submit" className="start-btn">
-              Start Game
-            </button>
-          </form>
-          <Link className="settings-btn" href="/settings">
-            <u>Settings</u>
-          </Link>
-        </main>
-      </div>
+    <div className="menu">
+      <header className="header">
+        <h1 className="label">
+          <i>Contextualle</i>
+        </h1>
+        <p className="under_label">Guess the secret word from context</p>
+      </header>
+      <main className="menu-panel">
+        <p className="current-difficulty">
+          <i>Current difficulty:</i>{" "}
+          <DifficultyLabel difficulty={settings.difficulty} />
+        </p>
+        <form
+          className="start-btn-wrapper"
+          action={() => startGame(settings.difficulty)}
+        >
+          <button type="submit" className="btn">
+            Start Game
+          </button>
+        </form>
+        <Link className="settings-link" href="/settings">
+          <u>Settings</u>
+        </Link>
+      </main>
     </div>
   );
 }

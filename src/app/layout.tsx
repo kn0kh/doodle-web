@@ -18,7 +18,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${orbitron.className} antialiased`}>
         <div className="app-container">
-          <GameSettingsProvider>{children}</GameSettingsProvider>
+          <div className="menu-wrapper">
+            <GameSettingsProvider>{children}</GameSettingsProvider>
+          </div>
         </div>
       </body>
     </html>

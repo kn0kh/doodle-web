@@ -7,42 +7,48 @@ import Link from "next/link";
 export default function gameSettings() {
   const { settings, setSettings } = useGameSettings()!;
   return (
-    <>
-      <h2>Settings</h2>
-      <hr></hr>
-      <h3>Language</h3>
-      <select
-        name="selectLanguage"
-        value={settings.language}
-        onChange={(e) =>
-          setSettings((prev) => ({
-            ...prev,
-            language: e.target.value as LanguageShort,
-          }))
-        }
-      >
-        <option value="de">Deutsch</option>
-      </select>
-      <br></br>
-      <h3>Difficulty</h3>
-      <select
-        name="selectDiff"
-        value={settings.difficulty}
-        onChange={(e) =>
-          setSettings((prev) => ({
-            ...prev,
-            difficulty: Number(e.target.value) as Difficulty,
-          }))
-        }
-      >
-        <option value="0">Easy</option>
-        <option value="1">Normal</option>
-        <option value="2">Hard</option>
-        <option value="3">Random</option>
-      </select>
-      <br></br>
-      <br></br>
-      <Link href="/">Back</Link>
-    </>
+    <div className="menu">
+      <header className="header" style={{ marginBottom: "2rem" }}>
+        <h2 className="label-two">Settings</h2>
+      </header>
+
+      <main className="menu-panel settings-select">
+        <h3 className="label-three">Language</h3>
+        <select
+          name="selectLanguage"
+          style={{ marginBottom: "2rem" }}
+          value={settings.language}
+          onChange={(e) =>
+            setSettings((prev) => ({
+              ...prev,
+              language: e.target.value as LanguageShort,
+            }))
+          }
+        >
+          <option value="de">Deutsch</option>
+        </select>
+        <h3 className="label-three">Difficulty</h3>
+        <select
+          name="selectDiff"
+          value={settings.difficulty}
+          onChange={(e) =>
+            setSettings((prev) => ({
+              ...prev,
+              difficulty: Number(e.target.value) as Difficulty,
+            }))
+          }
+        >
+          <option value="0">Easy</option>
+          <option value="1">Normal</option>
+          <option value="2">Hard</option>
+          <option value="3">Random</option>
+        </select>
+        <div className="btn-wrapper" style={{ marginTop: "4rem" }}>
+          <Link href="/" className="btn back-btn">
+            Back
+          </Link>
+        </div>
+      </main>
+    </div>
   );
 }

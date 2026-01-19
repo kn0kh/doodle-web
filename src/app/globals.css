@@ -18,28 +18,31 @@ body {
   align-items: center;
   min-height: 100vh;
 }
-.game-menu-wrapper {
+.menu-wrapper {
   background-color: var(--accent);
   clip-path: polygon(85% 0%, 100% 15%, 100% 100%, 15% 100%, 0% 85%, 0 0);
   padding: 0.2rem;
+  width: min(550px, 95vw);
+  height: min(450px, 85vh);
 }
 
-.game-menu {
+.menu {
   clip-path: polygon(85% 0%, 100% 15%, 100% 100%, 15% 100%, 0% 85%, 0 0);
   background-color: #0d0d22;
   padding: 2rem;
+  width: 100%;
+  height: 100%;
 }
 
 .header {
   text-align: center;
-  padding-bottom: 4rem;
+  margin-bottom: 6rem;
 }
 
 .under_label {
   font-size: 1rem;
   color: var(--foreground);
   margin-top: -1rem;
-  margin-bottom: 2rem;
 }
 
 .label {
@@ -47,6 +50,20 @@ body {
   font-weight: bold;
   color: var(--accent);
   text-shadow: 0 0 6px var(--accent);
+}
+
+.label-two {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--accent);
+  text-shadow: 0 0 6px var(--accent);
+}
+
+.label-three {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
 }
 
 .menu-panel {
@@ -62,15 +79,16 @@ body {
   margin-bottom: 0;
   color: rgba(255, 255, 255, 0.5);
 }
-.start-btn-wrapper {
+.btn-wrapper {
   clip-path: polygon(90% 0%, 100% 20%, 100% 100%, 10% 100%, 0% 80%, 0 0);
   background-color: var(--accent);
   padding: 0.2rem;
 }
-.start-btn {
+.btn {
   display: block;
   clip-path: polygon(90% 0%, 100% 20%, 100% 100%, 10% 100%, 0% 80%, 0 0);
 
+  text-align: center;
   padding: 1rem 2rem;
   font-size: 1.5rem;
   font-weight: bold;
@@ -82,18 +100,40 @@ body {
     background-color 0.3s ease-in-out,
     color 0.3s ease-in-out;
 }
+.back-btn {
+  font-size: 1rem;
+  padding: 0.8rem 1.5rem;
+}
 
-.start-btn:hover {
+.btn:hover {
   background-color: var(--accent);
   color: var(--background);
 }
-.start-btn:active {
+.btn:active {
   transform: scale(0.9);
 }
 
-.settings-btn {
+.settings-link {
   cursor: pointer;
   color: var(--foreground);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-top: 1rem;
+  transition: color 0.2s ease-in-out;
+}
+.settings-link:hover {
+  color: var(--accent);
+}
+.settings-link:active {
+  transform: scale(0.9);
+}
+
+.settings-select select {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+.settings-select option {
+  background-color: var(--background);
+  color: var(--foreground);
+  outline: none;
 }
