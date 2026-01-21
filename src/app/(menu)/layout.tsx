@@ -1,6 +1,6 @@
 import "@/app/globals.css";
 
-export default function RootLayout({
+export default function MenuLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

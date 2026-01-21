@@ -5,9 +5,16 @@ import { redirect } from "next/navigation";
 import { getIndex } from "@/app/(menu)/action";
 
 function cosineSimilarity(vecA: number[], vecB: number[]): number {
+  if (vecA.length !== vecB.length) {
+    throw new Error("Vectors must be of the same length");
+  }
   const dotProduct = vecA.reduce((sum, a, idx) => sum + a * vecB[idx], 0);
   const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
   const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+
+  if (magnitudeA === 0 || magnitudeB === 0) {
+    throw new Error("Cannot compute cosine similarity for zero-length vector");
+  }
 
   return (dotProduct / (magnitudeA * magnitudeB)) * 100;
 }
@@ -46,7 +53,17 @@ export async function compare(
     throw Error("Unexpected Error while retrieving cookies");
   }
 
-  const secretVector = JSON.parse(await getVectorfromId(Number(secretWordId)));
+  let secretVector: number[];
+  try {
+    secretVector = JSON.parse(await getVectorfromId(Number(secretWordId)));
+  } catch (error) {
+    console.error(
+      "[ERROR] Failed to retrieve secret vector from DB at /game/action.ts:",
+      error,
+    );
+    throw Error("Unexpected Error while retrieving secret vector from DB");
+  }
+
   const score = cosineSimilarity(wordVector, secretVector);
 
   const newGuesses = [
@@ -98,7 +115,17 @@ export async function getHint(prevState: {
     throw Error("Unexpected Error while retrieving cookies");
   }
 
-  const queryVector = JSON.parse(await getVectorfromId(Number(secretWordId)));
+  let queryVector: number[];
+  try {
+    queryVector = JSON.parse(await getVectorfromId(Number(secretWordId)));
+  } catch (error) {
+    console.error(
+      "[ERROR] Failed to retrieve secret vector from DB at /game/action.ts:",
+      error,
+    );
+    throw Error("Unexpected Error while retrieving secret vector from DB");
+  }
+
   const result = index.searchKnn(queryVector, k);
 
   let hintIndex: number;

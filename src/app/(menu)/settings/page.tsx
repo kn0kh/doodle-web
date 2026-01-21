@@ -4,7 +4,7 @@ import { LanguageShort, Difficulty } from "@/utils/types";
 import { useGameSettings } from "@/context/game-settings-context";
 import Link from "next/link";
 
-export default function gameSettings() {
+export default function GameSettings() {
   const { settings, setSettings } = useGameSettings()!;
   return (
     <div className="menu">

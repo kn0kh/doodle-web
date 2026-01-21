@@ -32,7 +32,14 @@ function DifficultyLabel({ difficulty }: { difficulty: Difficulty }) {
 }
 
 export default function Home() {
-  const { settings } = useGameSettings()!;
+  const gameSettings = useGameSettings();
+  if (!gameSettings) {
+    return (
+      <div>
+        <p>Game settings not found. Please reload the page.</p>
+      </div>
+    );
+  }
   return (
     <div className="menu">
       <header className="header">
@@ -44,11 +51,11 @@ export default function Home() {
       <main className="menu-panel">
         <p className="current-difficulty">
           <i>Current difficulty:</i>{" "}
-          <DifficultyLabel difficulty={settings.difficulty} />
+          <DifficultyLabel difficulty={gameSettings.settings.difficulty} />
         </p>
         <form
           className="start-btn-wrapper"
-          action={() => startGame(settings.difficulty)}
+          action={() => startGame(gameSettings.settings.difficulty)}
         >
           <button type="submit" className="btn">
             Start Game

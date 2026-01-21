@@ -35,8 +35,11 @@ export default function Game() {
       {!Gstate.won && (
         <div>
           <Form action={handleGuess}>
-            <input name="guessedWord"></input>
-            <button type="submit">Test</button>
+            <input
+              id="guessedWord"
+              name="guessedWord"
+              aria-label="Enter your guess"
+            />
           </Form>
           {Hstate.usedup ? (
             <p>
@@ -48,13 +51,11 @@ export default function Game() {
             </Form>
           )}
           <ul>
-            {Hstate.hints.map(
-              (hintObj: { id: string; hint: string; similarity: number }) => (
-                <li key={hintObj.id}>
-                  {hintObj.hint}: {hintObj.similarity}%
-                </li>
-              ),
-            )}
+            {Hstate.hints.map((hintObj) => (
+              <li key={hintObj.id}>
+                {hintObj.hint}: {hintObj.similarity}%
+              </li>
+            ))}
           </ul>
           {Hstate.status.error && (
             <div style={{ color: "red" }}>{Hstate.status.message}</div>
@@ -75,13 +76,9 @@ export default function Game() {
         <div>
           <p>YOU WON!!!</p>
           <p>It took you {Gstate.guesses.length} guesses</p>
-          <button
-            onClick={() => {
-              goBack();
-            }}
-          >
-            Go back
-          </button>
+          <form action={goBack}>
+            <button type="submit">Go back</button>
+          </form>
         </div>
       )}
       <Link href="/">Surrender</Link>

@@ -25,9 +25,12 @@ export async function getRandomSecret(difficulty: Difficulty): Promise<number> {
       max = 4;
       min = 1;
       break;
-    default:
+    case "random":
       max = 0;
       min = 0;
+      break;
+    default:
+      throw new Error("Invalid difficulty level");
   }
 
   const conditions = [];
@@ -72,7 +75,7 @@ export async function getVectorfromWord(word: string): Promise<string> {
     });
   if (!result) {
     console.error(
-      `[ERROR] getVectorfromWord(${word}) didn't found the word in the database`,
+      `[ERROR] getVectorfromWord(${word}) didn't find the word in the database`,
     );
     throw new Error("Word not found in database");
   } else {
@@ -93,7 +96,7 @@ export async function getWordfromId(id: number): Promise<string> {
     });
   if (!result) {
     console.error(
-      `[ERROR] getWordfromId(${id}) didn't found the word in the database`,
+      `[ERROR] getWordfromId(${id}) didn't find the word in the database`,
     );
     throw new Error("Word not found in database");
   } else {
@@ -114,9 +117,9 @@ export async function getVectorfromId(id: number): Promise<string> {
     });
   if (!result) {
     console.error(
-      `[ERROR] getVectorfromId(${id}) didn't found the vector from id`,
+      `[ERROR] getVectorfromId(${id}) didn't find the vector from id`,
     );
-    throw new Error("Coulnd't find secret Vector");
+    throw new Error("Couldn't find secret Vector");
   } else {
     return result.vector;
   }
