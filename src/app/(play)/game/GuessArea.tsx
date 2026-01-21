@@ -1,5 +1,6 @@
 import Form from "next/form";
 import { Guess } from "@/utils/types";
+import Link from "next/link";
 
 const initialGState: {
   guesses: Guess[];
@@ -11,6 +12,14 @@ const initialGState: {
   status: { error: false, message: "" },
 };
 
+function getColor(percent: number): string {
+  if (percent >= 80) return "green";
+  if (percent >= 60) return "lightgreen";
+  if (percent >= 40) return "yellow";
+  if (percent >= 20) return "orange";
+  return "red";
+}
+
 export default function GuessArea({
   GState,
   handleGuess,
@@ -19,27 +28,48 @@ export default function GuessArea({
   handleGuess: (payload: FormData) => void;
 }) {
   return (
-    <>
-      <div>
-        <Form action={handleGuess}>
+    <div className="guess-area-wrapper">
+      <h3 className="attempt-counter">
+        <i>Attempt #{GState.guesses.length + 1}</i>
+      </h3>
+      <Form className="guess-container" action={handleGuess}>
+        <div className="input-wrapper">
           <input
-            id="guessedWord"
             name="guessedWord"
-            aria-label="Enter your guess"
+            className="word-input"
+            placeholder="Enter your guess"
+            autoFocus
           />
-          <button type="submit">Guess</button>
-        </Form>
-      </div>
+        </div>
+        <div className="btn-wrapper guess-btn-wrapper">
+          <button className="btn guess-btn" type="submit">
+            Guess!
+          </button>
+        </div>
+      </Form>
       {GState.status.error && (
-        <div style={{ color: "red" }}>{GState.status.message}</div>
+        <div className="error-message">{GState.status.message}</div>
       )}
-      <ol>
-        {GState.guesses.map((guess: Guess) => (
-          <li key={guess.id}>
-            {guess.word}: {guess.score}%
-          </li>
-        ))}
-      </ol>
-    </>
+      <table className="guess-table">
+        <tbody>
+          {GState.guesses.map((guess: Guess, index: number) => (
+            <tr
+              key={guess.id}
+              className={index % 2 !== 0 ? "odd-row" : "even-row"}
+            >
+              <td style={{ textAlign: "right" }}>{guess.word}</td>
+              <td style={{ textAlign: "left", color: getColor(guess.score) }}>
+                {guess.score}%
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Link href="/" className="btn-link" style={{ fontSize: "0.8rem" }}>
+        <i>
+          <u>Surrender</u>
+        </i>
+      </Link>
+    </div>
   );
 }

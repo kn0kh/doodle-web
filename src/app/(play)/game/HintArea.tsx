@@ -14,7 +14,7 @@ export default function HintArea({
   handleHint: (payload: FormData) => void;
 }) {
   return (
-    <>
+    <div className="hint-area-wrapper">
       {HState.usedup ? (
         <p>
           <i>No more hints available</i>
@@ -34,6 +34,6 @@ export default function HintArea({
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 }

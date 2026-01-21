@@ -54,14 +54,14 @@ export default function Home() {
           <DifficultyLabel difficulty={gameSettings.settings.difficulty} />
         </p>
         <form
-          className="start-btn-wrapper"
+          className="btn-wrapper"
           action={() => startGame(gameSettings.settings.difficulty)}
         >
           <button type="submit" className="btn">
             Start Game
           </button>
         </form>
-        <Link className="settings-link" href="/settings">
+        <Link className="btn-link" href="/settings">
           <u>Settings</u>
         </Link>
       </main>
