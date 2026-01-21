@@ -1,7 +1,7 @@
 "use client";
 import Form from "next/form";
 import { useActionState } from "react";
-import { compare, goBack, getHint } from "@/app/game/action";
+import { compare, goBack, getHint } from "@/app/(play)/game/action";
 import { Guess } from "@/utils/types";
 import Link from "next/link";
 
@@ -74,7 +74,7 @@ export default function Game() {
       {Gstate.won && (
         <div>
           <p>YOU WON!!!</p>
-          <p>It took you {Gstate.guesses.length + 1} guesses</p>
+          <p>It took you {Gstate.guesses.length} guesses</p>
           <button
             onClick={() => {
               goBack();

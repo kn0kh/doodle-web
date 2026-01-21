@@ -2,25 +2,26 @@ import { drizzle } from "drizzle-orm/libsql";
 import { gte, and, sql, eq, lte, isNull, or, is } from "drizzle-orm";
 import { createClient } from "@libsql/client";
 import { readyVectors } from "./schema";
+import { Difficulty } from "@/utils/types";
 
 const client = createClient({
   url: `file:${process.env.DB_FILE_NAME!}`,
 });
 const db = drizzle(client);
 
-export async function getRandomSecret(difficulty: number): Promise<number> {
+export async function getRandomSecret(difficulty: Difficulty): Promise<number> {
   let min: number;
   let max: number;
   switch (difficulty) {
-    case 0:
+    case "easy":
       max = 6;
       min = 5;
       break;
-    case 1:
+    case "normal":
       max = 5;
       min = 4;
       break;
-    case 2:
+    case "hard":
       max = 4;
       min = 1;
       break;
@@ -51,7 +52,7 @@ export async function getRandomSecret(difficulty: number): Promise<number> {
 
   if (!result) {
     console.error(
-      "[ERROR] getRandomWord() at @/db/index.ts returned null or undefined"
+      "[ERROR] getRandomWord() at @/db/index.ts returned null or undefined",
     );
     throw Error("Unexpected error selecting the secret Word.");
   }
@@ -71,7 +72,7 @@ export async function getVectorfromWord(word: string): Promise<string> {
     });
   if (!result) {
     console.error(
-      `[ERROR] getVectorfromWord(${word}) didn't found the word in the database`
+      `[ERROR] getVectorfromWord(${word}) didn't found the word in the database`,
     );
     throw new Error("Word not found in database");
   } else {
@@ -92,7 +93,7 @@ export async function getWordfromId(id: number): Promise<string> {
     });
   if (!result) {
     console.error(
-      `[ERROR] getWordfromId(${id}) didn't found the word in the database`
+      `[ERROR] getWordfromId(${id}) didn't found the word in the database`,
     );
     throw new Error("Word not found in database");
   } else {
@@ -113,7 +114,7 @@ export async function getVectorfromId(id: number): Promise<string> {
     });
   if (!result) {
     console.error(
-      `[ERROR] getVectorfromId(${id}) didn't found the vector from id`
+      `[ERROR] getVectorfromId(${id}) didn't found the vector from id`,
     );
     throw new Error("Coulnd't find secret Vector");
   } else {
@@ -140,10 +141,10 @@ export async function getDatafromWord(word: string): Promise<{
     });
   if (!result) {
     console.error(
-      `[ERROR] getDatafromWord(${word}) at @/db/index.ts returned null or undefined`
+      `[ERROR] getDatafromWord(${word}) at @/db/index.ts returned null or undefined`,
     );
     throw new Error(
-      "Unexpected Error occured. Unable to get data on this Word"
+      "Unexpected Error occured. Unable to get data on this Word",
     );
   } else {
     return result;

@@ -5,4 +5,4 @@ export type Guess = {
 };
 
 export type LanguageShort = "de" | "en" | "fr" | "es" | "it" | "ru" | "test";
-export type Difficulty = 0 | 1 | 2 | 3;
+export type Difficulty = "easy" | "normal" | "hard" | "random";

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Orbitron } from "next/font/google";
-import "./globals.css";
 import { GameSettingsProvider } from "@/context/game-settings-context";
 
 export const metadata: Metadata = {
@@ -17,11 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${orbitron.className} antialiased`}>
-        <div className="app-container">
-          <div className="menu-wrapper">
-            <GameSettingsProvider>{children}</GameSettingsProvider>
-          </div>
-        </div>
+        <GameSettingsProvider>{children}</GameSettingsProvider>
       </body>
     </html>
   );

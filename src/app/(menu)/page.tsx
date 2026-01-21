@@ -3,16 +3,17 @@
 import { startGame } from "./action";
 import Link from "next/link";
 import { useGameSettings } from "@/context/game-settings-context";
+import { Difficulty } from "@/utils/types";
 
-function DifficultyLabel({ difficulty }: { difficulty: number }) {
+function DifficultyLabel({ difficulty }: { difficulty: Difficulty }) {
   switch (difficulty) {
-    case 0:
+    case "easy":
       return <span style={{ color: "green" }}>EASY</span>;
-    case 1:
+    case "normal":
       return <span style={{ color: "yellow" }}>NORMAL</span>;
-    case 2:
+    case "hard":
       return <span style={{ color: "red" }}>HARD</span>;
-    case 3:
+    case "random":
       return (
         <span
           style={{

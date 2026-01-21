@@ -34,14 +34,14 @@ export default function gameSettings() {
           onChange={(e) =>
             setSettings((prev) => ({
               ...prev,
-              difficulty: Number(e.target.value) as Difficulty,
+              difficulty: e.target.value as Difficulty,
             }))
           }
         >
-          <option value="0">Easy</option>
-          <option value="1">Normal</option>
-          <option value="2">Hard</option>
-          <option value="3">Random</option>
+          <option value="easy">Easy</option>
+          <option value="normal">Normal</option>
+          <option value="hard">Hard</option>
+          <option value="random">Random</option>
         </select>
         <div className="btn-wrapper" style={{ marginTop: "4rem" }}>
           <Link href="/" className="btn back-btn">

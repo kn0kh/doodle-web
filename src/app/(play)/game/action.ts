@@ -2,7 +2,7 @@
 import { cookies } from "next/headers";
 import { getVectorfromId, getVectorfromWord, getWordfromId } from "@/db";
 import { redirect } from "next/navigation";
-import { getIndex } from "@/app/action";
+import { getIndex } from "@/app/(menu)/action";
 
 function cosineSimilarity(vecA: number[], vecB: number[]): number {
   const dotProduct = vecA.reduce((sum, a, idx) => sum + a * vecB[idx], 0);
