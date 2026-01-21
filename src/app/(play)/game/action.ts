@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { getVectorfromId, getVectorfromWord, getWordfromId } from "@/db";
 import { redirect } from "next/navigation";
 import { getIndex } from "@/app/(menu)/action";
+import { Guess, Hint } from "@/utils/types";
 
 function cosineSimilarity(vecA: number[], vecB: number[]): number {
   if (vecA.length !== vecB.length) {
@@ -21,12 +22,16 @@ function cosineSimilarity(vecA: number[], vecB: number[]): number {
 
 export async function compare(
   prevState: {
-    guesses: Array<{ id: string; word: string; score: number }>;
+    guesses: Guess[];
     won: boolean;
     status: { error: boolean; message: string };
   },
   formData: FormData,
-) {
+): Promise<{
+  guesses: Guess[];
+  won: boolean;
+  status: { error: boolean; message: string };
+}> {
   const word = formData.get("guessedWord")?.toString();
   if (!word) {
     console.error("[ERROR] Invalid input in formData.get() at /game/action.ts");
@@ -92,7 +97,7 @@ export async function goBack() {
 }
 
 export async function getHint(prevState: {
-  hints: Array<{ id: string; hint: string; similarity: number }>;
+  hints: Hint[];
   times: number;
   usedup: boolean;
   status: { error: boolean; message: string };

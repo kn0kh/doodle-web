@@ -4,5 +4,11 @@ export type Guess = {
   score: number;
 };
 
+export type Hint = {
+  id: string;
+  hint: string;
+  similarity: number;
+};
+
 export type LanguageShort = "de" | "en" | "fr" | "es" | "it" | "ru" | "test";
 export type Difficulty = "easy" | "normal" | "hard" | "random";
