@@ -38,6 +38,13 @@ export async function compare(
     return { ...prevState, status: { error: true, message: "Invalid input" } };
   }
 
+  if (prevState.guesses.some((guess) => guess.word === word)) {
+    return {
+      ...prevState,
+      status: { error: true, message: "Already there" },
+    };
+  }
+
   let wordVector: number[];
   try {
     wordVector = JSON.parse(await getVectorfromWord(word));

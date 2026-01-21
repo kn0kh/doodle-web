@@ -5,7 +5,6 @@
   - add hint buttons
   - add style to errors
 - Bug fixes
-  - disallow same guess multiple times
   - save guesses on page update
 - add 3d representation of the vectors
 - add fancy background
