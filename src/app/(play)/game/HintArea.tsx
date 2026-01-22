@@ -1,5 +1,6 @@
 import Form from "next/form";
 import { Hint } from "@/utils/types";
+import { getColor } from "@/utils/helpers";
 
 export default function HintArea({
   HState,
@@ -16,24 +17,48 @@ export default function HintArea({
   return (
     <div className="hint-area-wrapper">
       {HState.usedup ? (
-        <p>
-          <i>No more hints available</i>
-        </p>
+        <div className="btn-wrapper hint-btn-wrapper">
+          <button
+            className="btn hint-btn"
+            type="submit"
+            disabled
+            aria-label="No more hints"
+          >
+            No more hints
+          </button>
+        </div>
       ) : (
         <Form action={handleHint}>
-          <button type="submit">Hint</button>
+          <div className="btn-wrapper hint-btn-wrapper">
+            <button className="btn hint-btn" type="submit">
+              Hint
+            </button>
+          </div>
         </Form>
       )}
       {HState.status.error && (
         <div style={{ color: "red" }}>{HState.status.message}</div>
       )}
-      <ul>
-        {HState.hints.map((hintObj) => (
-          <li key={hintObj.id}>
-            {hintObj.hint}: {hintObj.similarity}%
-          </li>
-        ))}
-      </ul>
+      <table className="guess-table">
+        <tbody>
+          {HState.hints.map((hintObj, index) => (
+            <tr
+              key={hintObj.id}
+              className={index % 2 !== 0 ? "odd-row" : "even-row"}
+            >
+              <td style={{ textAlign: "right" }}>{hintObj.hint}</td>
+              <td
+                style={{
+                  color: getColor(hintObj.similarity),
+                  textAlign: "left",
+                }}
+              >
+                {hintObj.similarity}%
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

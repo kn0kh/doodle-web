@@ -228,3 +228,21 @@ body {
   font-size: 0.7rem;
   text-align: center;
 }
+
+.hint-btn-wrapper {
+  width: 30%;
+  background-color: var(--accent);
+  padding: 0.1rem;
+  align-items: center;
+  margin: 0.5rem auto 0;
+}
+
+.hint-btn {
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.hint-btn:disabled {
+  pointer-events: none;
+  color: var(--shadow);
+}

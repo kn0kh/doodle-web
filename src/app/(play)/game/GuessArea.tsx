@@ -1,6 +1,7 @@
 import Form from "next/form";
 import { Guess } from "@/utils/types";
 import Link from "next/link";
+import { getColor } from "@/utils/helpers";
 
 const initialGState: {
   guesses: Guess[];
@@ -11,14 +12,6 @@ const initialGState: {
   won: false,
   status: { error: false, message: "" },
 };
-
-function getColor(percent: number): string {
-  if (percent >= 80) return "green";
-  if (percent >= 60) return "lightgreen";
-  if (percent >= 40) return "yellow";
-  if (percent >= 20) return "orange";
-  return "red";
-}
 
 export default function GuessArea({
   GState,

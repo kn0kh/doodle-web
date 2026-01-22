@@ -2,6 +2,7 @@
 import { useActionState } from "react";
 import { compare, goBack, getHint } from "@/app/(play)/game/action";
 import { Guess, Hint } from "@/utils/types";
+import { getColor } from "@/utils/helpers";
 import GuessArea from "@/app/(play)/game/GuessArea";
 import HintArea from "@/app/(play)/game/HintArea";
 import SphereArea from "@/app/(play)/game/SphereArea";
