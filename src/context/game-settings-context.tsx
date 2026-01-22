@@ -20,7 +20,7 @@ export function GameSettingsProvider({
 }) {
   const [settings, setSettings] = useState<Settings>({
     language: "de",
-    difficulty: "normal",
+    difficulty: "easy",
   });
 
   return (
