@@ -264,3 +264,11 @@ body {
   color: var(--accent);
   text-shadow: 0 0 6px var(--accent);
 }
+
+.error-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

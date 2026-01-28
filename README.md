@@ -1,9 +1,8 @@
 ## TODO's
 
 - add basic style
-  - make guesses wrap
   - add style to errors
-  - add surrender screen
+  - make guesses stop at 15
 - add 3d representation of the vectors
 - Bug fixes
   - save guesses on page update

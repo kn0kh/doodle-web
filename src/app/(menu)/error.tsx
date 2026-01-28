@@ -1,37 +1,21 @@
 "use client";
 
-import { startGame } from "./action";
-import { useGameSettings } from "@/context/game-settings-context";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ErrorBoundary({ error }: { error: Error }) {
-  const gameSettings = useGameSettings();
-  const router = useRouter();
-  if (!gameSettings) {
-    return (
-      <div>
-        <p>Game settings not found. Please return to the main menu.</p>
+  return (
+    <div className="menu error-wrapper">
+      <h2 className="label-two">Something went wrong!</h2>
+      <p>{error.message}</p>
+      <div className="btn-wrapper" style={{ marginTop: "2rem" }}>
         <button
-          onClick={() => {
-            router.push("/");
-          }}
+          className="btn back-btn"
+          onClick={() => window.location.reload()}
+          type="button"
         >
-          Go Back
+          Try again
         </button>
       </div>
-    );
-  }
-  return (
-    <>
-      <p>{error.message}</p>
-      <button
-        onClick={() => {
-          console.log("[LOG] Retrying to start the game");
-          startGame(gameSettings.settings.difficulty);
-        }}
-      >
-        Try again
-      </button>
-    </>
+    </div>
   );
 }
