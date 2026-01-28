@@ -25,15 +25,24 @@ function cosineSimilarity(vecA: number[], vecB: number[]): number {
 export async function compare(
   prevState: {
     guesses: Guess[];
-    won: boolean;
+    ended: "lost" | "won" | false;
     status: { error: boolean; message: string };
   },
   formData: FormData,
 ): Promise<{
   guesses: Guess[];
-  won: boolean;
+  ended: "lost" | "won" | false;
   status: { error: boolean; message: string };
 }> {
+  const isSurrender = formData.has("surrender");
+  if (isSurrender) {
+    return {
+      ...prevState,
+      ended: "lost",
+      status: { error: false, message: "" },
+    };
+  }
+
   const word = formData.get("guessedWord")?.toString();
   if (!word) {
     console.error("[ERROR] Invalid input in formData.get() at /game/action.ts");
@@ -93,7 +102,7 @@ export async function compare(
     return {
       ...prevState,
       guesses: newGuesses,
-      won: true,
+      ended: "won",
       status: { error: false, message: "" },
     };
   }
@@ -112,10 +121,10 @@ export async function goBack() {
 export async function getHint(prevState: {
   hints: Hint[];
   times: number;
-  usedup: boolean;
+  usedUp: boolean;
   status: { error: boolean; message: string };
 }) {
-  if (prevState.usedup) {
+  if (prevState.usedUp) {
     return {
       ...prevState,
       status: { error: true, message: "No more hints available" },
@@ -148,7 +157,7 @@ export async function getHint(prevState: {
 
   let hintIndex: number;
   let newTimes: number;
-  let usedup = prevState.usedup || false;
+  let usedUp = prevState.usedUp || false;
   switch (prevState.times) {
     case 0:
       newTimes = 1;
@@ -160,7 +169,7 @@ export async function getHint(prevState: {
       break;
     case 2:
       newTimes = prevState.times;
-      usedup = true;
+      usedUp = true;
       hintIndex = 3;
       break;
     default:
@@ -192,7 +201,7 @@ export async function getHint(prevState: {
     ...prevState,
     hints: newHints,
     times: newTimes,
-    usedup: usedup,
+    usedUp: usedUp,
     status: { error: false, message: "" },
   };
 }

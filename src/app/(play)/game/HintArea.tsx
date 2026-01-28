@@ -9,14 +9,14 @@ export default function HintArea({
   HState: {
     hints: Hint[];
     times: number;
-    usedup: boolean;
+    usedUp: boolean;
     status: { error: boolean; message: string };
   };
   handleHint: (payload: FormData) => void;
 }) {
   return (
     <div className="hint-area-wrapper">
-      {HState.usedup ? (
+      {HState.usedUp ? (
         <div className="btn-wrapper hint-btn-wrapper">
           <button
             className="btn hint-btn"

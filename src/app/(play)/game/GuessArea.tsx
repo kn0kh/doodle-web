@@ -1,29 +1,21 @@
 import Form from "next/form";
 import { Guess } from "@/utils/types";
-import Link from "next/link";
+import { initialGState } from "@/utils/initialStates";
 import { getColor } from "@/utils/helpers";
-
-const initialGState: {
-  guesses: Guess[];
-  won: boolean;
-  status: { error: boolean; message: string };
-} = {
-  guesses: [],
-  won: false,
-  status: { error: false, message: "" },
-};
 
 export default function GuessArea({
   GState,
   handleGuess,
+  guesses,
 }: {
   GState: typeof initialGState;
   handleGuess: (payload: FormData) => void;
+  guesses: Guess[];
 }) {
   return (
     <div className="guess-area-wrapper">
       <h3 className="attempt-counter">
-        <i>Attempt #{GState.guesses.length + 1}</i>
+        <i>Attempt #{guesses.length}</i>
       </h3>
       <Form className="guess-container" action={handleGuess}>
         <div className="input-wrapper">
@@ -45,7 +37,7 @@ export default function GuessArea({
       )}
       <table className="guess-table">
         <tbody>
-          {GState.guesses.map((guess: Guess, index: number) => (
+          {guesses.map((guess, index) => (
             <tr
               key={guess.id}
               className={index % 2 !== 0 ? "odd-row" : "even-row"}
@@ -58,11 +50,19 @@ export default function GuessArea({
           ))}
         </tbody>
       </table>
-      <Link href="/" className="btn-link" style={{ fontSize: "0.8rem" }}>
-        <i>
-          <u>Surrender</u>
-        </i>
-      </Link>
+      <Form action={handleGuess}>
+        <button
+          name="surrender"
+          value="lost"
+          type="submit"
+          className="btn-link"
+          style={{ fontSize: "0.8rem" }}
+        >
+          <i>
+            <u>Surrender</u>
+          </i>
+        </button>
+      </Form>
     </div>
   );
 }
