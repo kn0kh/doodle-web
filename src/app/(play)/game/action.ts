@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { getIndex } from "@/app/(menu)/action";
 import { Guess, Hint } from "@/utils/types";
 
+const MAX_GUESSES = 14;
+
 function cosineSimilarity(vecA: number[], vecB: number[]): number {
   if (vecA.length !== vecB.length) {
     throw new Error("Vectors must be of the same length");
@@ -82,6 +84,10 @@ export async function compare(
     ...prevState.guesses,
     { id: crypto.randomUUID(), word: word, score: Math.round(score) },
   ].sort((a, b) => b.score - a.score);
+
+  if (newGuesses.length > MAX_GUESSES) {
+    newGuesses.pop();
+  }
 
   if (Math.round(score) === 100) {
     return {
