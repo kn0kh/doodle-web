@@ -59,6 +59,7 @@ body {
   font-weight: bold;
   color: var(--accent);
   text-shadow: 0 0 6px var(--accent);
+  margin-bottom: 2rem;
 }
 
 .label-three {
@@ -245,4 +246,19 @@ body {
 .hint-btn:disabled {
   pointer-events: none;
   color: var(--shadow);
+}
+
+.win-screen-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.highlight-word {
+  color: var(--accent);
+  text-shadow: 0 0 6px var(--accent);
 }
