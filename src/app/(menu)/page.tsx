@@ -34,7 +34,7 @@ function DifficultyLabel({ difficulty }: { difficulty: Difficulty }) {
 export default function Home() {
   const gameSettings = useGameSettings();
   if (!gameSettings) {
-    throw new Error("Game settings not found. Please return to the main menu.");
+    throw new Error("Game settings not found. Please refresh the page.");
   }
   return (
     <div className="menu">
