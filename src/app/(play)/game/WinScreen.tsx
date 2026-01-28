@@ -8,13 +8,13 @@ export default function WinScreen({
   numGuesses: number;
 }) {
   return (
-    <div className="win-screen-wrapper">
+    <div className="center-flex" style={{ gridArea: "1 / 1 / -1 / -1" }}>
       <h2 className="label-two">
         <b>You WON!</b>
       </h2>
       <p>
-        In <i className="highlight-word">{numGuesses} </i> guesses you finally
-        guessed the word:
+        After <i className="highlight-word">{numGuesses}</i> attempts you
+        finally guessed:
       </p>
       <h1 className="winning-word">
         <i className="highlight-word">{word}</i>
