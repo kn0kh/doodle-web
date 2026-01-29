@@ -7,8 +7,8 @@ import Link from "next/link";
 export default function GameSettings() {
   const { settings, setSettings } = useGameSettings()!;
   return (
-    <div className="menu">
-      <header className="header" style={{ marginBottom: "2rem" }}>
+    <div className="menu" style={{ padding: "1rem" }}>
+      <header className="header" style={{ marginBottom: "2.5rem" }}>
         <h2 className="label-two">Settings</h2>
       </header>
 

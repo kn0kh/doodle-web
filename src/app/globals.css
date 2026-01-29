@@ -8,7 +8,17 @@
   --shadow: rgba(255, 255, 255, 0.5);
 }
 
+html {
+  font-size: 24px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--background);
+}
+
 body {
+  font-size: 1rem;
   margin: 0;
   height: 100vh;
   overflow: hidden;
@@ -26,8 +36,8 @@ body {
   background-color: var(--accent);
   clip-path: polygon(85% 0%, 100% 15%, 100% 100%, 15% 100%, 0% 85%, 0 0);
   padding: 0.2rem;
-  width: min(550px, 95vw);
-  height: min(450px, 85vh);
+  width: min(800px, 95vw);
+  height: min(650px, 85vh);
 }
 
 .menu {
