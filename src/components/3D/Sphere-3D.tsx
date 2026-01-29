@@ -17,7 +17,7 @@ function Vector3D({
   const memoizedArrowHelper = useMemo(() => {
     const dirVec = new THREE.Vector3(...direction);
     const dir =
-      dirVec.lengthSq() === 0 ? dirVec.normalize() : new THREE.Vector3(0, 1, 0); // TODO zero edge case -> throw error?
+      dirVec.lengthSq() === 0 ? new THREE.Vector3(0, 1, 0) : dirVec.normalize(); // TODO zero edge case -> throw error?
     const origin = new THREE.Vector3(...position);
     const length = 2;
 
