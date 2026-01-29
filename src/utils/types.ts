@@ -2,6 +2,7 @@ export type Guess = {
   id: string;
   word: string;
   score: number;
+  vecDir: [number, number, number];
 };
 
 export type Hint = {

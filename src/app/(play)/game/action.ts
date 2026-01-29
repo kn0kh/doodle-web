@@ -22,6 +22,14 @@ function cosineSimilarity(vecA: number[], vecB: number[]): number {
   return (dotProduct / (magnitudeA * magnitudeB)) * 100;
 }
 
+function principalComponentAnalysis(vec: number[]): [number, number, number] {
+  // TODO: implement PCA properly
+  // Placeholder for PCA implementation
+
+  // In a real scenario, this would reduce the vector to 3 dimensions
+  return [vec[0] || 0, vec[1] || 0, vec[2] || 0];
+}
+
 export async function compare(
   prevState: {
     guesses: Guess[];
@@ -46,7 +54,14 @@ export async function compare(
   const isSurrender = formData.has("surrender");
   if (isSurrender) {
     const secret = await getWordfromId(Number(secretWordId));
-    const lastGuess = [{ id: crypto.randomUUID(), word: secret, score: 100 }];
+    const lastGuess = [
+      {
+        id: crypto.randomUUID(),
+        word: secret,
+        score: 100,
+        vecDir: [0, 0, 0] as [number, number, number],
+      },
+    ];
     return {
       ...prevState,
       guesses: lastGuess,
@@ -91,10 +106,15 @@ export async function compare(
   }
 
   const score = cosineSimilarity(wordVector, secretVector);
-
+  const pcaVector = principalComponentAnalysis(wordVector);
   const newGuesses = [
     ...prevState.guesses,
-    { id: crypto.randomUUID(), word: word, score: Math.round(score) },
+    {
+      id: crypto.randomUUID(),
+      word: word,
+      score: Math.round(score),
+      vecDir: pcaVector,
+    },
   ].sort((a, b) => b.score - a.score);
 
   if (newGuesses.length > MAX_GUESSES) {

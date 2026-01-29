@@ -47,7 +47,10 @@ export default function Game() {
         <LossScreen word={Gstate.guesses[0].word} />
       ) : (
         <>
-          <SphereArea />
+          <SphereArea
+            secretVectorDir={[1, 1, 0]} // TODO replace with dynamic secret vector and move to server
+            guessVecDirs={Gstate.guesses.map((guess) => guess.vecDir)}
+          />
           <GuessArea
             GState={Gstate}
             handleGuess={handleGuess}
