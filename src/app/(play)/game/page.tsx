@@ -3,11 +3,11 @@ import { useActionState, useEffect, useState } from "react";
 import { compare, getHint } from "@/app/(play)/game/action";
 import { Guess } from "@/utils/types";
 import { initialGState, initialHState } from "@/utils/initialStates";
-import GuessArea from "@/app/(play)/game/GuessArea";
-import HintArea from "@/app/(play)/game/HintArea";
-import SphereArea from "@/app/(play)/game/SphereArea";
-import WinScreen from "./WinScreen";
-import LossScreen from "./LossScreen";
+import GuessArea from "@/components/game/GuessArea";
+import HintArea from "@/components/game/HintArea";
+import SphereArea from "@/components/game/SphereArea";
+import WinScreen from "@/components/game/WinScreen";
+import LossScreen from "@/components/game/LossScreen";
 
 export default function Game() {
   const [guesses, setGuesses] = useState<Guess[]>([]);
