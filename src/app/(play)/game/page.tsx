@@ -7,7 +7,7 @@ import GuessArea from "@/app/(play)/game/GuessArea";
 import HintArea from "@/app/(play)/game/HintArea";
 import SphereArea from "@/app/(play)/game/SphereArea";
 import WinScreen from "./WinScreen";
-import WastedScreen from "./WastedScreen";
+import LossScreen from "./LossScreen";
 
 export default function Game() {
   const [guesses, setGuesses] = useState<Guess[]>([]);
@@ -44,7 +44,7 @@ export default function Game() {
           numGuesses={Gstate.guesses.length}
         ></WinScreen>
       ) : Gstate.ended === "lost" ? (
-        <WastedScreen />
+        <LossScreen word={Gstate.guesses[0].word} />
       ) : (
         <>
           <SphereArea />

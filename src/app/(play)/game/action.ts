@@ -34,10 +34,22 @@ export async function compare(
   ended: "lost" | "won" | false;
   status: { error: boolean; message: string };
 }> {
+  const cookieStore = await cookies();
+  const secretWordId = cookieStore.get("secretWordId")?.value;
+  if (!secretWordId) {
+    console.error(
+      "[ERROR] Got undefined from cookieStore.get('secretWordId') at /game/action.ts",
+    );
+    throw Error("Unexpected Error while retrieving cookies");
+  }
+
   const isSurrender = formData.has("surrender");
   if (isSurrender) {
+    const secret = await getWordfromId(Number(secretWordId));
+    const lastGuess = [{ id: crypto.randomUUID(), word: secret, score: 100 }];
     return {
       ...prevState,
+      guesses: lastGuess,
       ended: "lost",
       status: { error: false, message: "" },
     };
@@ -65,15 +77,6 @@ export async function compare(
       errorMessage = error.message;
     }
     return { ...prevState, status: { error: true, message: errorMessage } };
-  }
-
-  const cookieStore = await cookies();
-  const secretWordId = cookieStore.get("secretWordId")?.value;
-  if (!secretWordId) {
-    console.error(
-      "[ERROR] Got undefined from cookieStore.get('secretWordId') at /game/action.ts",
-    );
-    throw Error("Unexpected Error while retrieving cookies");
   }
 
   let secretVector: number[];
